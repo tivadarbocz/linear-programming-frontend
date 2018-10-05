@@ -3,11 +3,11 @@ const express = require('express');
 const app = express();
 
 // Serve static files
-app.use(express.static(__dirname + '/dist/linear-programming'));
+app.use(express.static(__dirname + '/dist/linear-programming-frontend'));
 
 // Send all requests to index.html
 app.get('/*', function(req, res) {
-  res.sendFile(path.join(__dirname + '/dist/linear-programming\'/index.html'));
+  res.sendFile(path.join(__dirname + '/dist/linear-programming-frontend\'/index.html'));
 });
 
 // default Heroku port
