@@ -21,7 +21,7 @@ export class CreatorComponent {
         data: [
            // { x: [1, 2, 3], y: [2, 6, 3], z: [2,5,6], type: 'scatter3d', mode: 'lines+points', marker: {color: 'red'},  fill:"tonexty"}
              { x: [ 1, 2, 3], y: [ 2, 4, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, name: 'alma'},
-             { x: [2, 3, 4], y: [4, 5, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'blue'}}
+            { x: [2, 3, 4], y: [4, 5, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'blue'}}
         ],
         layout: {width: 600, height: 600, title: 'Figure', autosize: false}
     };
@@ -29,6 +29,8 @@ export class CreatorComponent {
 
     addNewEquations(){
       this.numberOfEquations++;
+      //this.graph.data.push( { x: [ 1, 2, 3], y: [ 2, 4, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, name: 'alma'});
+      //console.log(this.graph.data);
     }
 
     clear(){
