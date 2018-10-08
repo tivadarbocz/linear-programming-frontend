@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
-import { Equation } from './datasctucture/Equation';
+import { Equation } from './model/Equation';
 
 @Component({
   selector: 'app-root',
