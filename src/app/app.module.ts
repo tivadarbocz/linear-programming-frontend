@@ -4,16 +4,15 @@ import { PlotlyModule } from 'angular-plotly.js';
 import { AppComponent } from './app.component';
 import { CreatorComponent } from './creator/creator.component';
 import { AppRoutingModule } from './app-routing.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CreatorComponent,
-    DashboardComponent
+    CreatorComponent
   ],
   imports: [
-    BrowserModule, PlotlyModule, AppRoutingModule
+    BrowserModule, PlotlyModule, AppRoutingModule, FormsModule, ReactiveFormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

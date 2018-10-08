@@ -3,12 +3,11 @@ import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
 import {AppComponent} from './app.component';
 import {CreatorComponent} from './creator/creator.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
   //{ path: '', redirectTo: '/dashboard', pathMatch: 'full', canActivate: [AuthGuard] },
-  { path: '', component: DashboardComponent }
+//  { path: '', component: DashboardComponent }
   //{ path: 'quiz', component: QuizComponent, canActivate: [AuthGuard] },
  // { path: 'quiz/:id', component: ConcreteQuizComponent, canActivate: [AuthGuard] },
   //{ path: 'login', component: LoginComponent }

@@ -1,28 +1,44 @@
-import { Component } from '@angular/core';
-
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
+import { Equation } from './datasctucture/Equation';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
-
 })
-export class AppComponent {
-  numberOfEquations: number[];
-  
-  constructor(){
-    this.numberOfEquations = [];
+export class AppComponent implements OnInit {
+  form: FormGroup;
+
+  constructor(private _fb: FormBuilder) {}
+
+  ngOnInit() {
+    this.form = this._fb.group({
+      equations: this._fb.array([], Validators.required)
+    });
+    this.addNewEquation();
   }
 
-  removeNewEquations(){
-    this.numberOfEquations.splice(-1,1);
+  removeEquation(index: number) {
+    this.equations.removeAt(index);
   }
 
-  addNewEquations(){
-    this.numberOfEquations.push(1);
+  addNewEquation() {
+    this.equations.push(Equation.newFormGroup());
   }
 
-  clear(){  
-    this.numberOfEquations = [];
+  clear() {}
+
+  finish() {
+    console.log('finish');
+    console.log(this.equations.value);
+  }
+
+  get equations(): FormArray {
+    return this.form.get('equations') as FormArray;
+  }
+
+  getXValues(equation: FormGroup): FormArray {
+    return equation.get('xValues') as FormArray;
   }
 }
