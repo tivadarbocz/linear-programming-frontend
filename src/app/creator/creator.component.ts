@@ -10,7 +10,7 @@ import { Plotly } from 'angular-plotly.js/src/app/plotly/plotly.service';
 })
 export class CreatorComponent {
   numberOfEquations = 0;
-  private _data: Plotly.Data[];
+  _data: Plotly.Data[];
   @Input('data')
   set data(data: Equation[]) {
     //TODO
