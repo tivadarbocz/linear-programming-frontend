@@ -1,6 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, FormArray, Validators } from '@angular/forms';
 import { Equation } from './model/Equation';
+import { CreatorComponent } from './creator/creator.component';
 
 @Component({
   selector: 'app-root',
@@ -9,6 +10,9 @@ import { Equation } from './model/Equation';
 })
 export class AppComponent implements OnInit {
   form: FormGroup;
+
+  @ViewChild(CreatorComponent)
+  creator;
 
   constructor(private _fb: FormBuilder) {}
 
@@ -29,9 +33,8 @@ export class AppComponent implements OnInit {
 
   clear() {}
 
-  finish() {
-    console.log('finish');
-    console.log(this.equations.value);
+  onSubmit() {
+    this.creator.data = this.equations.value;
   }
 
   get equations(): FormArray {

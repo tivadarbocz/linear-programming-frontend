@@ -1,39 +1,77 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
+import { Equation } from '../model/Equation';
+import { Plotly } from 'angular-plotly.js/src/app/plotly/plotly.service';
 
 @Component({
   selector: 'app-creator',
-  /*templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']*/
-  template: '<plotly-plot [data]="graph.data" [layout]="graph.layout"></plotly-plot>'
+  templateUrl: './creator.component.html',
+  styleUrls: ['./creator.component.css'],
+  exportAs: 'CreatorComponent'
 })
 export class CreatorComponent {
-  numberOfEquations: number;
-  
-  constructor(){
-    this.numberOfEquations = 0
+  numberOfEquations = 0;
+  private _data: Plotly.Data[];
+  @Input('data')
+  set data(data: Equation[]) {
+    //TODO
+    this.calculateGraphData(data);
   }
- // title = 'linear-programming-frontend';
- //https://plot.ly/javascript/reference/
- //https://plot.ly/python/3d-filled-line-plots/
- //https://github.com/angular/angular-cli/wiki
- //https://github.com/plotly/angular-plotly.js/blob/master/README.md
-  public graph = {
-        data: [
-           // { x: [1, 2, 3], y: [2, 6, 3], z: [2,5,6], type: 'scatter3d', mode: 'lines+points', marker: {color: 'red'},  fill:"tonexty"}
-             { x: [ 1, 2, 3], y: [ 2, 4, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, name: 'alma'},
-            { x: [2, 3, 4], y: [4, 5, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'blue'}}
-        ],
-        layout: {width: 600, height: 600, title: 'Figure', autosize: false}
-    };
+  get data(): Equation[] {
+    return null;
+  }
+  layout = { width: 600, height: 600, title: 'Figure', autosize: false };
 
+  constructor() {}
+  //https://plot.ly/javascript/reference/
+  //https://plot.ly/python/3d-filled-line-plots/
+  //https://github.com/angular/angular-cli/wiki
+  //https://github.com/plotly/angular-plotly.js/blob/master/README.md
 
-    addNewEquations(){
-      this.numberOfEquations++;
-      //this.graph.data.push( { x: [ 1, 2, 3], y: [ 2, 4, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, name: 'alma'});
-      //console.log(this.graph.data);
-    }
+  addNewEquations() {
+    this.numberOfEquations++;
+    // this.graph.data.push( { x: [ 1, 2, 3], y: [ 2, 4, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, name: 'alma'});
+    // console.log(this.graph.data);
+  }
 
-    clear(){
-      this.numberOfEquations = 0
-    }
+  clear() {
+    this.numberOfEquations = 0;
+  }
+
+  calculateGraphData(equations: Equation[]) {
+    this.equationToPlotlyData(equations);
+    this.layout = { width: 600, height: 600, title: 'Figure', autosize: false };
+  }
+
+  equationToPlotlyData(equations: Equation[]) {
+    const xPoints = [];
+    const yPoints = [];
+
+    equations.forEach(e => {
+      //e.xValues.forEach(x => {
+      const p1 = e.result / e.xValues[0];
+      const p2 = 0;
+      const p3 = 0;
+      const p4 = e.result / e.xValues[1];
+
+      xPoints.push(p1);
+      yPoints.push(p2);
+      xPoints.push(p3);
+      yPoints.push(p4);
+
+      //});
+    });
+
+    this._data = [
+      {
+        x: xPoints,
+        y: yPoints,
+        type: 'scatter',
+        mode: 'lines+points',
+        marker: { color: 'red' },
+        name: 'trace'
+      }
+    ];
+
+    console.log('_data', this._data);
+  }
 }
