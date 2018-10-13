@@ -9,12 +9,9 @@ import { Plotly } from 'angular-plotly.js/src/app/plotly/plotly.service';
   exportAs: 'CreatorComponent'
 })
 export class CreatorComponent {
-  numberOfEquations = 0;
   _data: Plotly.Data[];
-  color = ['red', 'blue', 'green', 'yellow', 'purple', 'black'];
   @Input('data')
   set data(data: Equation[]) {
-    //TODO
     this.calculateGraphData(data);
   }
   get data(): Equation[] {
@@ -28,27 +25,10 @@ export class CreatorComponent {
   //https://github.com/angular/angular-cli/wiki
   //https://github.com/plotly/angular-plotly.js/blob/master/README.md
 
-  addNewEquations() {
-    this.numberOfEquations++;
-    // this.graph.data.push( { x: [ 1, 2, 3], y: [ 2, 4, 6], type: 'scatter', mode: 'lines+points', marker: {color: 'red'}, name: 'alma'});
-    // console.log(this.graph.data);
-  }
-
-  clear() {
-    this.numberOfEquations = 0;
-  }
-
   calculateGraphData(equations: Equation[]) {
-    this.equationToPlotlyData(equations);
-    this.layout = { width: 600, height: 600, title: 'Figure', autosize: false };
-  }
-
-  equationToPlotlyData(equations: Equation[]) {
     this._data = [];
     let i = 0;
     equations.forEach(e => {
-      //e.xValues.forEach(x => {
-
       const xPoints = [];
       const yPoints = [];
       const p1 = e.result / e.xValues[0];
@@ -67,23 +47,20 @@ export class CreatorComponent {
         y: yPoints,
         type: 'scatter',
         mode: 'lines+points',
-        marker: { color: this.color[i] },
+        marker: { color: this.getRandomColor()  },
         name: 'trace' + i
       });
-      //});
     });
 
-    /*this._data = [
-      {
-        x: xPoints,
-        y: yPoints,
-        type: 'scatter',
-        mode: 'lines+points',
-        marker: { color: 'red' },
-        name: 'trace'
-      }
-    ];*/
+    this.layout = { width: 600, height: 600, title: 'Figure', autosize: false };
+  }
 
-    console.log('_data', this._data);
+   getRandomColor() {
+    let letters = '0123456789ABCDEF';
+    let color = '#';
+    for (let i = 0; i < 6; i++) {
+      color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
   }
 }
