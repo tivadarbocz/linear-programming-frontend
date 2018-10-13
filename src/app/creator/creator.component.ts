@@ -11,6 +11,7 @@ import { Plotly } from 'angular-plotly.js/src/app/plotly/plotly.service';
 export class CreatorComponent {
   numberOfEquations = 0;
   _data: Plotly.Data[];
+  color = ['red', 'blue', 'green', 'yellow', 'purple', 'black'];
   @Input('data')
   set data(data: Equation[]) {
     //TODO
@@ -43,11 +44,13 @@ export class CreatorComponent {
   }
 
   equationToPlotlyData(equations: Equation[]) {
-    const xPoints = [];
-    const yPoints = [];
-
+    this._data = [];
+    let i = 0;
     equations.forEach(e => {
       //e.xValues.forEach(x => {
+
+      const xPoints = [];
+      const yPoints = [];
       const p1 = e.result / e.xValues[0];
       const p2 = 0;
       const p3 = 0;
@@ -57,11 +60,20 @@ export class CreatorComponent {
       yPoints.push(p2);
       xPoints.push(p3);
       yPoints.push(p4);
+      ++i;
 
+      this._data.push({
+        x: xPoints,
+        y: yPoints,
+        type: 'scatter',
+        mode: 'lines+points',
+        marker: { color: this.color[i] },
+        name: 'trace' + i
+      });
       //});
     });
 
-    this._data = [
+    /*this._data = [
       {
         x: xPoints,
         y: yPoints,
@@ -70,7 +82,7 @@ export class CreatorComponent {
         marker: { color: 'red' },
         name: 'trace'
       }
-    ];
+    ];*/
 
     console.log('_data', this._data);
   }
