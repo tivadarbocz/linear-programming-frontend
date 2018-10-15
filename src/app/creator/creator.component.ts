@@ -12,7 +12,7 @@ export class CreatorComponent {
   _data: Plotly.Data[];
   @Input('data')
   set data(data: Equation[]) {
-    this.calculateGraphData(data);
+    this.calculate2DGraphData(data);
   }
   get data(): Equation[] {
     return null;
@@ -25,21 +25,63 @@ export class CreatorComponent {
   //https://github.com/angular/angular-cli/wiki
   //https://github.com/plotly/angular-plotly.js/blob/master/README.md
 
-  calculateGraphData(equations: Equation[]) {
+  calculate2DGraphData(equations: Equation[]) {
     this._data = [];
     let i = 0;
     equations.forEach(e => {
       const xPoints = [];
       const yPoints = [];
-      const p1 = e.result / e.xValues[0];
-      const p2 = 0;
-      const p3 = 0;
-      const p4 = e.result / e.xValues[1];
 
-      xPoints.push(p1);
-      yPoints.push(p2);
-      xPoints.push(p3);
-      yPoints.push(p4);
+      if ((e.xValues[0] > 0 && e.xValues[1] > 0) || (e.xValues[0] < 0 && e.xValues[1] < 0)) {
+        const l = 0;
+        const k = 0;
+        const px1 = (e.result - l * e.xValues[1]) / e.xValues[0];
+        const px2 = 0;
+        const py1 = 0;
+        const py2 = (e.result - k * e.xValues[0]) / e.xValues[1];
+
+        xPoints.push(px1);
+        yPoints.push(px2);
+        xPoints.push(py1);
+        yPoints.push(py2);
+      } else if (e.xValues[0] < 0) {
+        //ha x1 kisebb, mint 0
+        const l = 2;
+
+        //beginning point
+        const px1 = e.result / e.xValues[0];
+        const px2 = 0;
+
+        //end point
+        const py1 = l * Math.abs(px1);
+        const py2 = e.result / e.xValues[1] + l * Math.abs(e.result / e.xValues[1]);
+
+        xPoints.push(px1);
+        yPoints.push(px2);
+        xPoints.push(py1);
+        yPoints.push(py2);
+      } else if (e.xValues[1] < 0) {
+        //ha x2 kisebb, mint 0
+        //const l = 10 * e.xValues[1];
+        const l = 2;
+        //beginning point
+        const py1 = 0;
+        const py2 = e.result / e.xValues[1];
+
+        //end point
+        const px1 = e.result / e.xValues[0] + l * Math.abs(e.result / e.xValues[0]);
+        const px2 = l * Math.abs(py2);
+
+        xPoints.push(px1);
+        yPoints.push(px2);
+        xPoints.push(py1);
+        yPoints.push(py2);
+        /*console.log('px1', px1);
+        console.log('px2', px2);
+        console.log('py1', py1);
+        console.log('py2', py2);*/
+      }
+
       ++i;
 
       this._data.push({
@@ -47,7 +89,7 @@ export class CreatorComponent {
         y: yPoints,
         type: 'scatter',
         mode: 'lines+points',
-        marker: { color: this.getRandomColor()  },
+        marker: { color: this.getRandomColor() },
         name: 'trace' + i
       });
     });
@@ -55,7 +97,7 @@ export class CreatorComponent {
     this.layout = { width: 600, height: 600, title: 'Figure', autosize: false };
   }
 
-   getRandomColor() {
+  getRandomColor() {
     let letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {

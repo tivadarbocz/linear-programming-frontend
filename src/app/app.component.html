@@ -12,11 +12,10 @@
           <!-- class="padding"-->
           <ng-container formArrayName="xValues">
             <ng-container *ngFor="let xValue of getXValues(e).controls; let j=index">
-              <input [formControlName]="j" type="text" placeholder="1x1" class="form-control" />
+              <input [formControlName]="j" type="text" class="form-control" />
             </ng-container>
           </ng-container>
 
-          <!--<input type="text" name="e1_operation" placeholder="3x2" class="form-control"/>-->
           <select formControlName="operation" >
             <option value="" disabled>Select a value</option>
             <option value="<">&lt;</option>
