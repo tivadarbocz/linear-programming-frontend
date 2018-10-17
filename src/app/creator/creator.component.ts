@@ -12,7 +12,11 @@ export class CreatorComponent {
   _data: Plotly.Data[];
   @Input('data')
   set data(data: Equation[]) {
-    this.calculate2DGraphData(data);
+    if (data[0].xValues.length === 2) {
+      this.calculate2DGraphData(data);
+    } else if (data[0].xValues.length === 3) {
+      this.calculate3DGraphData(data);
+    }
   }
   get data(): Equation[] {
     return null;
@@ -32,7 +36,10 @@ export class CreatorComponent {
       const xPoints = [];
       const yPoints = [];
 
-      if ((e.xValues[0] > 0 && e.xValues[1] > 0) || (e.xValues[0] < 0 && e.xValues[1] < 0)) {
+      if (
+        (e.xValues[0] > 0 && e.xValues[1] > 0) ||
+        (e.xValues[0] < 0 && e.xValues[1] < 0)
+      ) {
         const l = 0;
         const k = 0;
         const px1 = (e.result - l * e.xValues[1]) / e.xValues[0];
@@ -54,7 +61,8 @@ export class CreatorComponent {
 
         //end point
         const py1 = l * Math.abs(px1);
-        const py2 = e.result / e.xValues[1] + l * Math.abs(e.result / e.xValues[1]);
+        const py2 =
+          e.result / e.xValues[1] + l * Math.abs(e.result / e.xValues[1]);
 
         xPoints.push(px1);
         yPoints.push(px2);
@@ -69,17 +77,14 @@ export class CreatorComponent {
         const py2 = e.result / e.xValues[1];
 
         //end point
-        const px1 = e.result / e.xValues[0] + l * Math.abs(e.result / e.xValues[0]);
+        const px1 =
+          e.result / e.xValues[0] + l * Math.abs(e.result / e.xValues[0]);
         const px2 = l * Math.abs(py2);
 
         xPoints.push(px1);
         yPoints.push(px2);
         xPoints.push(py1);
         yPoints.push(py2);
-        /*console.log('px1', px1);
-        console.log('px2', px2);
-        console.log('py1', py1);
-        console.log('py2', py2);*/
       }
 
       ++i;
@@ -98,11 +103,30 @@ export class CreatorComponent {
   }
 
   getRandomColor() {
-    let letters = '0123456789ABCDEF';
+    const letters = '0123456789ABCDEF';
     let color = '#';
     for (let i = 0; i < 6; i++) {
       color += letters[Math.floor(Math.random() * 16)];
     }
     return color;
+  }
+
+  calculate3DGraphData(equations: Equation[]) {
+    this._data = [];
+    this._data.push({
+      type: 'mesh3d',
+      x: [0, 1, 2, 0],
+      y: [0, 0, 1, 2],
+      z: [0, 2, 0, 1],
+      i: [0, 0, 0, 1],
+      j: [1, 2, 3, 2],
+      k: [2, 3, 1, 3],
+      intensity: [0, 0.33, 0.66, 1],
+      colorscale: [
+        [0, 'rgb(255, 0, 0)'],
+        [0.5, 'rgb(0, 255, 0)'],
+        [1, 'rgb(0, 0, 255)']
+      ]
+    });
   }
 }

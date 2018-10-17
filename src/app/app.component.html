@@ -1,36 +1,9 @@
-<form class="container" [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="row">
-    <div class="col-sm">
-      <app-creator #creator></app-creator>
-    </div>
-    <div class="col-sm">
-      <div class="mb-3">
-        <button type="button" (click)="addNewEquation()" class="btn btn-success">Add new equation</button>
-      </div>
-      <div formArrayName="equations">
-        <div *ngFor="let e of equations.controls; let i=index" [formGroupName]="i" class="input-group mb-3">
-          <!-- class="padding"-->
-          <ng-container formArrayName="xValues">
-            <ng-container *ngFor="let xValue of getXValues(e).controls; let j=index">
-              <input [formControlName]="j" type="text" class="form-control" />
-            </ng-container>
-          </ng-container>
-
-          <select formControlName="operation" >
-            <option value="" disabled>Select a value</option>
-            <option value="<">&lt;</option>
-            <option value="<=">&lt;=</option>
-            <option value=">">>
-            </option>
-            <option value=">=">>=</option>
-            <option value="=">=</option>
-          </select>
-          <input type="number" formControlName="result" placeholder="10" class="form-control" />
-          <button type="button" class="btn btn-danger" (click)="removeEquation(i)">X</button>
-        </div>
-        <button class="btn btn-primary">Finish</button>
-      </div>
-    </div>
-  </div>
-</form>
-<!--{{form.value | json}}-->
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/2d" routerLinkActive="active">2D</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" routerLink="/3d" routerLinkActive="active">3D</a>
+  </li>
+</ul>
+<router-outlet></router-outlet>
